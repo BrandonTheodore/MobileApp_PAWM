@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, Image } from 'react-native';
+import itblogo from '../assets/itblogo.jpg';
 
 export default function Header() {
   return (
     <View style={styles.header}>
       <Image
-        source={{ uri: 'https://placehold.co/80x80' }}
+        source={itblogo}
         style={styles.logo}
       />
       <View>

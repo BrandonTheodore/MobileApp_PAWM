@@ -35,7 +35,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   box: { padding: 20 },
-  title: { fontSize: 20, fontWeight: 'bold' },
+  title: { fontSize: 20, fontWeight: 'bold' , alignItems: 'center', marginBottom: 20},
   input: { borderWidth: 1, marginVertical: 8, padding: 10 },
   btn: { backgroundColor: '#3b82f6', padding: 12, alignItems: 'center' },
 });

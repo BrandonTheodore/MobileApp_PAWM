@@ -42,10 +42,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 16, fontWeight: 'bold' },
   button: {
     marginTop: 12,
-    backgroundColor: '#3b82f6',
-    padding: 10,
-    borderRadius: 6,
     alignSelf: 'flex-start',
   },
-  buttonText: { color: '#fff', fontWeight: '600' },
+  buttonText: { color: '#3b82f6', fontWeight: '600' },
 });
