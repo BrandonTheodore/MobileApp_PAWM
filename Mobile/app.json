@@ -1,5 +1,10 @@
 {
   "android": {
     "package": "com.anonymous.mobile"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "ea881a02-ba7b-4c29-832e-d127e67601c7"
+    }
   }
 }
