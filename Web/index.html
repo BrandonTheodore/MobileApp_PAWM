@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <title>Virtual Lab</title>
 <body>
     <header class="site-header">
@@ -8,7 +8,7 @@
             <div class="header-content">
                 <div class="logo-area">
                     <div class="logo-icon">
-                        <img src="assets/images/itblogo.jpg" alt="Logo ITB">
+                        <img src="/assets/images/itblogo.jpg" alt="Logo ITB">
                     </div>
                     <div class="logo-text">
                         <h1>Virtual Laboratory</h1>
@@ -23,16 +23,16 @@
         <nav class="main-nav">
             <div class="container">
                 <ul>
-                    <li class="nav-active"><a href="index.html">Home</a></li>
-                    <li><a href="course.html">Course</a></li>
-                    <li><a href="simulation.html">Simulation</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li class="login-button"><a href="login.html">Login</a></li>
+                    <li class="nav-active"><a href="/index">Home</a></li>
+                    <li><a href="/course">Course</a></li>
+                    <li><a href="/simulation">Simulation</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li class="login-button"><a href="/login">Login</a></li>
                 </ul>
             </div>
         </nav>
-    </div> 
+    </div>
     <main class="main-content">
         <section class="carousel-container">
             <div class="carousel-slides">
@@ -46,17 +46,17 @@
                     <img src="https://placehold.co/1080x400/38a169/ffffff?text=Coding+Experiment">
                 </div>
             </div>
-            
+
             <button id="prevBtn" class="carousel-control">&#10094;</button>
             <button id="nextBtn" class="carousel-control">&#10095;</button>
-            
+
             <div class="carousel-dots">
                 <span class="dot active" data-slide="0"></span>
                 <span class="dot" data-slide="1"></span>
                 <span class="dot" data-slide="2"></span>
             </div>
         </section>
-        <div class="container">            
+        <div class="container">
             <section class="tabs-container">
                 <div class="tab-links">
                     <a class="tab-link active" data-tab="introduction">Introduction</a>
@@ -71,7 +71,7 @@
                         <p>
                             Python is a very popular, high-level programming language loved for its simple, readable syntax that often looks like plain English. This makes it an ideal choice for beginners, but it's also powerful enough to be used by professionals for web development, data science, artificial intelligence, and much more.
                     </div>
-                    
+
                     <div id="quote" class="tab-pane">
                         <h2>Quote</h2>
                         <p align="center">
@@ -82,7 +82,7 @@
                         </p>
                     </div>
                 </div>
-            </section> 
+            </section>
         </div>
     </main>
 
@@ -113,7 +113,7 @@
 
                 slides.forEach(slide => slide.classList.remove('active'));
                 dots.forEach(dot => dot.classList.remove('active'));
-                
+
                 slides[currentSlide].classList.add('active');
                 dots[currentSlide].classList.add('active');
             }
@@ -134,18 +134,18 @@
                     resetInterval();
                 });
             });
-            
+
             function startInterval() {
                 slideInterval = setInterval(() => {
                     showSlide(currentSlide + 1);
                 }, 5000);
             }
-            
+
             function resetInterval() {
                 clearInterval(slideInterval);
                 startInterval();
             }
-            
+
             startInterval();
 
             const tabLinks = document.querySelectorAll('.tab-link');
@@ -154,7 +154,7 @@
             tabLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
+
                     const tabId = link.getAttribute('data-tab');
 
                     tabLinks.forEach(item => item.classList.remove('active'));
@@ -173,4 +173,3 @@
     </script>
 </body>
 </html>
-

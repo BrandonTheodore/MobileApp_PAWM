@@ -16,7 +16,7 @@ var DB *mongo.Database
 
 func ConnectDB() {
 	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb+srv://18223038_db_user:33wxubHLymQ7kRmD@pawm.2adoicu.mongodb.net/").SetServerSelectionTimeout(30 * time.Second)
+	clientOptions := options.Client().ApplyURI("mongodb+srv://18223038_db_user:ljATss1c7Iugyt7R@pawm.2adoicu.mongodb.net/").SetServerSelectionTimeout(30 * time.Second)
 
 	// Optional: enable insecure TLS skip for debugging (only when explicitly set).
 	// To enable set environment variable MONGO_INSECURE_TLS=true or 1.

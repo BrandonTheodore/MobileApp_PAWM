@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <title>Virtual Lab</title>
 <body>
     <header class="site-header">
@@ -8,7 +8,7 @@
             <div class="header-content">
                 <div class="logo-area">
                     <div class="logo-icon">
-                        <img src="assets/images/itblogo.jpg" alt="Logo ITB">
+                        <img src="/assets/images/itblogo.jpg" alt="Logo ITB">
                     </div>
                     <div class="logo-text">
                         <h1>Virtual Laboratory</h1>
@@ -23,12 +23,12 @@
         <nav class="main-nav">
             <div class="container">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="course.html">Course</a></li>
-                    <li class="nav-active"><a href="simulation.html">Simulation</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li class="login-button"><a href="login.html">Login</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/course">Course</a></li>
+                    <li class="nav-active"><a href="/simulation">Simulation</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li class="login-button"><a href="/login">Login</a></li>
                 </ul>
             </div>
         </nav>
@@ -37,13 +37,21 @@
     <main class="main-content">
         <div class="simulation-container">
             <div class="simulation-page-layout">
-    <div class="simulation-card">
-        <div class="simulation-card-header">Code</div>
-        <textarea class="simulation-editor" placeholder="Ketik kode di sini..."></textarea>
-    </div>
-    <div class="simulation-card">
-        <div class="simulation-card-header">Result</div>
-        <textarea class="simulation-editor" placeholder="Hasil akan ditampilkan di sini..."></textarea>
+                <div class="simulation-card">
+                    <div class="simulation-card-header">Code</div>
+                    <textarea id="codeInput" class="simulation-editor" placeholder="print('Hello ITB')"></textarea>
+                </div>
+
+                <div class="simulation-card">
+                    <div class="simulation-card-header">Result</div>
+                    <textarea id="resultOutput" class="simulation-editor" placeholder="Result here..." readonly></textarea>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <button id="runBtn" class="run-button">Run Code</button>
+            </div>
+        </div>
     </main>
     <footer class="site-footer">
         <div class="container">
@@ -51,6 +59,6 @@
             <p>Project for Web Application and App Development Assignment</p>
         </div>
     </footer>
+    <script src="/assets/js/simulation.js"></script>
 </body>
 </html>
-

@@ -1,16 +1,51 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"time"
-
 	"virtuallab/config"
 	"virtuallab/models"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 )
+
+type FrontendRequest struct {
+	Code string `json:"code"`
+}
+
+type Config struct {
+	ClientId     string
+	ClientSecret string
+}
+
+var cfg Config
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	cfg = Config{
+		ClientId:     os.Getenv("COMPILER_ID"),
+		ClientSecret: os.Getenv("COMPILER_KEY"),
+	}
+}
+
+type JDoodleRequest struct {
+	ClientId     string `json:"clientId"`
+	ClientSecret string `json:"clientSecret"`
+	Script       string `json:"script"`
+	Language     string `json:"language"`
+	VersionIndex string `json:"versionIndex"`
+}
 
 // isemailvalid checks if email matches email format
 func isemailvalid(email string) bool {
@@ -39,17 +74,73 @@ func serveStaticFile(filename string) http.HandlerFunc {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		http.ServeFile(w, r, "../frontend/"+filename)
+		http.ServeFile(w, r, "../"+filename)
 	}
 }
 
+func serveStaticFileCourse(filename string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		http.ServeFile(w, r, "../course/"+filename)
+	}
+}
+
+func executeHandler(w http.ResponseWriter, r *http.Request) {
+	// Enable CORS so your frontend can talk to this backend
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	// 1. Parse code from your Frontend
+	var feReq FrontendRequest
+	if err := json.NewDecoder(r.Body).Decode(&feReq); err != nil {
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
+	}
+
+	// 2. Prepare JDoodle Payload
+	jDoodleData := JDoodleRequest{
+		ClientId:     cfg.ClientId,
+		ClientSecret: cfg.ClientSecret,
+		Script:       feReq.Code,
+		Language:     "python3",
+		VersionIndex: "4",
+	}
+
+	jsonData, _ := json.Marshal(jDoodleData)
+
+	// 3. Post to JDoodle
+	resp, err := http.Post("https://api.jdoodle.com/v1/execute", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		http.Error(w, "Failed to connect to Compiler API", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	// 4. Forward JDoodle's response back to your Frontend
+	w.Header().Set("Content-Type", "application/json")
+	var result map[string]interface{}
+	json.NewDecoder(resp.Body).Decode(&result)
+	json.NewEncoder(w).Encode(result)
+}
+
 func main() {
+
 	config.ConnectDB()
 
-	http.HandleFunc("/api/register", enableCORS(register))
+	http.HandleFunc("/api/execute", enableCORS(executeHandler))
+
 	http.HandleFunc("/api/login", enableCORS(login))
 	http.HandleFunc("/api/logout", enableCORS(logout))
 	http.HandleFunc("/api/protected", enableCORS(protected))
+	http.HandleFunc("/api/register", enableCORS(register))
 
 	// Page Routes
 	http.HandleFunc("/", serveStaticFile("index.html"))
@@ -61,8 +152,13 @@ func main() {
 	http.HandleFunc("/contact", serveStaticFile("contact.html"))
 	http.HandleFunc("/about", serveStaticFile("about.html"))
 
+	http.HandleFunc("/course/arithmetic", serveStaticFileCourse("arithmetic.html"))
+	http.HandleFunc("/course/array", serveStaticFileCourse("array.html"))
+	http.HandleFunc("/course/looping", serveStaticFileCourse("looping.html"))
+	http.HandleFunc("/course/printing", serveStaticFileCourse("printing.html"))
+
 	// Static Assets
-	fs := http.FileServer(http.Dir("../frontend/assets"))
+	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
 	fmt.Println("Server starting on port: 8000")
